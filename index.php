@@ -15,11 +15,17 @@
 <body>
 
 <?php
-    $url = 'http://listen.di.fm/public3';
-    $jsonObject = file_get_contents($url);
-    $diStream = json_decode($jsonObject);
+    $diUrl          = 'http://listen.di.fm/public1';
+    $diObject       = file_get_contents($diUrl);
+    $diStream       = json_decode($diObject);
+
+    $skyUrl         = 'http://listen.sky.fm/public1';
+    $skyObject      = file_get_contents($skyUrl);
+    $skyStream      = json_decode($skyObject);
+
+    $combinedStream = (object) array_merge((array) $diStream, (array) $skyStream);
     
-    // print_r($diStream); die();
+    //print_r($combinedStream); die();
 ?>
 
 <table id="stationList">
@@ -27,7 +33,7 @@
         <th>Name</th>
         <th>Description</th>
     </thead>
-    <? foreach($diStream as $station): ?>
+    <? foreach($combinedStream as $station): ?>
         <tr>
             <td><a href="<?= $station->playlist; ?>"><?= $station->name; ?></a></td>
             <td><?= $station->description; ?></td>
